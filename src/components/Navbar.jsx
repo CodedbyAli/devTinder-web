@@ -1,13 +1,27 @@
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUser } from "../utils/userSlice";
+import { useNavigate } from "react-router";
+// import axios from "axios";
 
 const Navbar = () => {
+  const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    dispatch(deleteUser());
+    navigate('/login');
+  }
+
   return (
     <>
       <div className="navbar bg-base-200">
         <div className="flex-1">
           <a className="btn btn-ghost text-xl">🧑 DevTinder</a>
         </div>
+        {user ? (<p>Welcome, {user.data.firstName}</p>) : ''}
         <div className="flex-none gap-2 mx-6">
-          <div className="dropdown dropdown-end">
+          {user ? (<div className="dropdown dropdown-end">
             <div
               tabIndex={0}
               role="button"
@@ -16,7 +30,7 @@ const Navbar = () => {
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  src={user.data.imageUrl}
                 />
               </div>
             </div>
@@ -34,10 +48,10 @@ const Navbar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <button onClick={handleLogout}>Logout</button>
               </li>
             </ul>
-          </div>
+          </div>) : ''}
         </div>
       </div>
     </>
