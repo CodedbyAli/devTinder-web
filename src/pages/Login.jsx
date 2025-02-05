@@ -3,18 +3,21 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router";
+import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
     const dispatch = useDispatch();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('ali@example.com');
+    const [password, setPassword] = useState('Ali@123456');
+    const [error, setError] = useState('');
+
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try{
             const res = await axios.post(
-                'http://localhost:7777/login', 
+                BASE_URL+'/login', 
                 {
                     email: email,
                     password: password
@@ -26,7 +29,8 @@ const Login = () => {
             navigate('/');
 
         }catch(err){
-            console.log(err.message);
+            setError(err?.response?.data || 'Something Went Wrong');
+            console.log(err);
         }
     }
 
@@ -47,9 +51,10 @@ const Login = () => {
                                 <div className="label">
                                     <span className="label-text">Password</span>
                                 </div>
-                                <input onChange={(e) => setPassword(e.target.value)} value={password} type="text" placeholder="Enter Password" className="input input-bordered w-full max-w-xs" />
+                                <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" placeholder="Enter Password" className="input input-bordered w-full max-w-xs" />
                             </label>
-                            <div className="card-actions justify-end mt-4">
+                            <p className="text-red-500 pt-4">{error}</p>
+                            <div className="card-actions justify-center mt-4">
                                 <button className="btn btn-primary">Login</button>
                             </div>
                         </form>
