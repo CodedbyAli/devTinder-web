@@ -6,6 +6,7 @@ import appStore from "./utils/appStore";
 import Feed from "./components/Feed";
 import Profile from "./pages/Profile";
 import Connections from "./components/Connections";
+import Requests from "./pages/Requests";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/connections" element={<Connections />} />
+              <Route path="/requests" element={<Requests />} />
             </Route>
           </Routes>
         </BrowserRouter>
